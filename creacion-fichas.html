@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>fichaProducto</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+
+  <script>
+    // Función para generar la ficha en el textarea
+    function generaFicha() {
+      var textarea = document.getElementById("ficha");
+      var titulo = document.getElementById("titulo");
+      var nombre = document.getElementById("nombre").value;
+      var marca = document.getElementById("marca").value;
+      var descripcion = document.getElementById("descripcion").value;
+      var ingredientes = document.getElementById("ingredientes").value;
+      var presentacion = document.getElementById("presentacion").value;
+      var empleo = document.getElementById("empleo").value;
+
+      titulo.value = (nombre) + " - " + (marca) + " - " + (presentacion);
+      textarea.value = ("<h2>" + (nombre) + "</h2>\n" +
+        "<h3>En nuestro Herbolario Online puedes comprar el " + (nombre) + " " + (presentacion) + " de " + (marca) +
+        ".</h3>\n" +
+        "<h4>¿Qué es el " + (nombre) + " de " + (marca) + " de " + (presentacion) + "?</h4>\n" +
+        "<p>" + descripcion + "</p>\n" +
+        "<h4>Ingredientes: </h4>\n" +
+        "<p>" + ingredientes + "</p>\n" +
+        "<h4>¿Cómo se toma el " + (nombre) + "?</h4>\n" +
+        "<p>" + empleo + "</p>\n" +
+        "<h4>Presentación:</h4>\n" +
+        "<p>Envase de " + presentacion + ".</p>");
+    }
+
+    function borrarFormulario() {
+      document.getElementById("formulario").reset();
+    }
+
+    function copiarTitulo() {
+      document.getElementById("formulario").reset();
+    }
+
+    function saveTextAsFile() {
+
+      if(document.getElementById("ficha").value != '') {
+	      var textToWrite = document.getElementById("ficha").value;
+	      var textFileAsBlob = new Blob([textToWrite], {type:'text/plain'});
+	      var fileNameToSaveAs = document.getElementById("titulo").value;
+
+	      var downloadLink = document.createElement("a");
+	      downloadLink.download = fileNameToSaveAs;
+	      downloadLink.innerHTML = "Descargar archivo";
+	        if (window.webkitURL != null) {
+	      	// Chrome allows the link to be clicked
+	      	// without actually adding it to the DOM.
+	      	downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	      } else {
+	      	// Firefox requires the link to be added to the DOM
+	      	// before it can be clicked.
+	      	downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+	      	downloadLink.onclick = destroyClickedElement;
+	      	downloadLink.style.display = "none";
+	      	document.body.appendChild(downloadLink);
+	      }
+        
+        downloadLink.click();
+      } else {
+        alert("No hay ficha creada");
+      }
+  }
+
+  function copiarAlPortapapeles() {
+    if(document.getElementById("ficha").value != '') {
+
+        // Selecciona el contenido del campo
+        document.getElementById("ficha").select();
+
+        // Copia el texto seleccionado
+        document.execCommand("copy");
+
+    } else {
+      alert("No hay ficha creada");
+    }
+    
+}
+
+  </script>
+</head>
+
+<body>
+  <nav class="navbar navbar-light navbar-expand-md" style="background-color: #ffffcc;">
+    <div class="container-fluid"><a class="navbar-brand" href="#"><strong>Fichas Producto - Casa Pià</strong></a>
+      <!--<button class="navbar-toggler" data-toggle="collapse" data-target="#navcol-1"><span class="sr-only">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+    <div
+                class="collapse navbar-collapse text-left d-lg-flex justify-content-lg-end" id="navcol-1">
+      <ul class="nav navbar-nav">
+        <li class="nav-item" role="presentation"><a class="nav-link active text-left" href="#">Crear ficha</a></li>
+      </ul>
+    </div>-->
+    </div>
+  </nav>
+  <div class="container"
+    style="margin: 0;margin-top: 24px;margin-right: 20px;margin-bottom: 24px;margin-left: 20px;background-color: #f7f4f4;">
+    <div class="row">
+      <div class="col">
+        <form id="formulario">
+          <strong class="d-xl-flex justify-content-xl-start">Nombre del producto</strong>
+          <input class="form-control" type="text" id="nombre" placeholder="Introduce el nombre del producto...">
+          <strong class="d-flex justify-content-xl-start">Marca</strong>
+          <input class="form-control" type="text" id="marca" placeholder="Introduce la marca del producto...">
+          <strong class="d-flex justify-content-xl-start">Presentación</strong>
+          <input class="form-control" type="text" id="presentacion" placeholder="Introduce la presentación del producto...">
+          <strong class="d-flex justify-content-xl-start">Descripción</strong>
+          <input class="form-control" type="text" id="descripcion" placeholder="Introduce la descripción del producto...">
+          <strong class="d-flex justify-content-xl-start">Ingredientes</strong>
+          <input class="form-control" type="text" id="ingredientes" placeholder="Introduce los ingredientes del producto...">
+          <strong class="d-flex justify-content-xl-start">Modo de empleo</strong>
+          <input class="form-control" type="text" id="empleo" value="Se recomienda tomar ">
+        </form>
+        <div class="d-xl-flex justify-content-xl-center align-items-xl-center">
+          <button
+            class="btn btn-dark d-sm-flex justify-content-center justify-content-sm-center align-items-sm-center justify-content-xl-center"
+            type="button"
+            style="width: 15%;height: 50%;padding-top: 8px;padding-right: 20px;padding-left: 20px;padding-bottom: 8px;margin-top: 20px;"
+            onClick="generaFicha()">Generar ficha</button>
+          <button
+            class="btn btn-dark d-sm-flex justify-content-center justify-content-sm-center align-items-sm-center justify-content-xl-center"
+            type="button"
+            style="width: 15%;height: 50%;padding-top: 8px;padding-right: 20px;padding-left: 20px;padding-bottom: 8px;margin-top: 20px; margin-left: 10px;"
+            onClick="borrarFormulario()">Borrar formulario</button>
+            <button
+            class="btn btn-dark d-sm-flex justify-content-center justify-content-sm-center align-items-sm-center justify-content-xl-center"
+            type="button"
+            style="width: 15%;height: 50%;padding-top: 8px;padding-right: 20px;padding-left: 20px;padding-bottom: 8px;margin-top: 20px; margin-left: 10px;"
+            onclick="saveTextAsFile()">Exportar HTML</button>
+            <button
+            class="btn btn-dark d-sm-flex justify-content-center justify-content-sm-center align-items-sm-center justify-content-xl-center"
+            type="button"
+            style="width: 15%;height: 50%;padding-top: 8px;padding-right: 20px;padding-left: 20px;padding-bottom: 8px;margin-top: 20px; margin-left: 10px;"
+            onclick="copiarAlPortapapeles()">Copiar el HTML</button>
+        </div>
+      </div>
+    </div>
+    <div class="d-xl-flex justify-content-xl-center align-items-xl-center" style="margin-top: 20px;">
+      <textarea id="titulo" style="width: 100%; height: 100%; margin-left: 20px;" rows='1' data-min-rows='1'
+      placeholder='Título del producto'></textarea></div>
+    <div class="d-xl-flex justify-content-xl-center align-items-xl-center" style="margin-top: 20px;">
+      <textarea id="ficha" style="width: 100%; height: 100%; margin-left: 20px;  margin-bottom: 20px" rows='3' data-min-rows='3'
+        placeholder='Ficha del producto en HTML'></textarea>
+    </div>
+  </div>
+  </div>
+</body>
+
+<script>
+var container = document.querySelector('ficha');
+var anchor = document.querySelector('a');
+
+anchor.onclick = function() {
+    anchor.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(container.value);
+    anchor.download = 'export.txt';
+};
+</script>
+
+</html>
