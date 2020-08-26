@@ -45,7 +45,7 @@
             </div>
             <div class="col">
               <strong class="d-xl-flex justify-content-xl-start">Modo de empleo:</strong>
-          <select name="empleo" id="empleo">
+          <select name="uso" id="uso">
             <option value="oral">Oral</option>
             <option value="corporal">Corporal</option>
           </select>
@@ -72,7 +72,7 @@
           <strong class="d-flex justify-content-xl-start">Ingredientes</strong>
           <input class="form-control" type="text" id="ingredientes" placeholder="Introduce los ingredientes del producto...">
           <strong class="d-flex justify-content-xl-start">Modo de empleo</strong>
-          <input class="form-control" type="text" id="empleo" value="Se recomienda tomar ">
+          <input class="form-control" type="text" id="empleo" placeholder="Se recomienda ">
         
         <div class="d-xl-flex justify-content-xl-center align-items-xl-center">
           <button
@@ -133,14 +133,15 @@ anchor.onclick = function() {
     var titulodesc = document.getElementById("titulodesc").value;
     var empleo = document.getElementById("empleo").value;
     var genero = document.getElementById("genero").value;
-    var uso = document.getElementById("empleo").value;
+    var uso = document.getElementById("uso").value;
 
     if (titulodesc.length < 0) {
       titulodesc = titulo;
     }
 
     genero = genero == "masc" ? "el" : "la";
-    empleo = empleo == "oral" ? "se toma" : "se utiliza";
+    uso = uso == "oral" ? "se toma" : "se utiliza";
+    let modoEmpleo = uso == "se toma" ? "tomar " : "utilizar ";
 
     titulo.value = (nombre) + " - " + (marca) + " - " + (presentacion);
     textarea.value = ("<h2>" + (nombre) + "</h2>\n" +
@@ -149,8 +150,8 @@ anchor.onclick = function() {
       "<p>" + descripcion + "</p>\n" +
       "<h4>Ingredientes: </h4>\n" +
       "<p>" + ingredientes + "</p>\n" +
-      "<h4>¿Cómo " + (empleo) + " " + (genero) + " " + (nombre) + "?</h4>\n" +
-      "<p>" + empleo + "</p>\n" +
+      "<h4>¿Cómo " + (uso) + " " + (genero) + " " + (nombre) + "?</h4>\n" +
+      "<p>" + `Se recomienda ${modoEmpleo}` + "</p>\n" +
       "<h4>Presentación:</h4>\n" +
       "<p>Envase de " + presentacion + ".</p>");
   }
